@@ -2,6 +2,7 @@ package com.artisan.product.controller;
 
 import com.artisan.product.domain.Product;
 import com.artisan.product.domain.ProductCategory;
+import com.artisan.product.dto.CartDTO;
 import com.artisan.product.service.ProductCategoryService;
 import com.artisan.product.service.ProductService;
 import com.artisan.product.vo.ProductInfoVO;
@@ -9,9 +10,7 @@ import com.artisan.product.vo.ProductVO;
 import com.artisan.product.vo.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,5 +66,33 @@ public class ProductController {
 
         return Result.success(productVOList);
     }
+
+
+    /**
+     * 根据productIdList 查询商品列表
+     * 提供给Order微服务用
+     *
+     * @param productIdList
+     * @return
+     */
+    @PostMapping("/productListForOrder")
+    private List<Product> getProductForOrder(@RequestBody List<String> productIdList) {
+        return productService.getProductList(productIdList);
+    }
+
+
+    /**
+     * 扣减库存
+     * 提供给Order微服务用
+     *
+     * @param CartDTOList
+     * @return
+     */
+    @PostMapping("/decreseProduct")
+    private void  decreseProduct(@RequestBody List<CartDTO> CartDTOList) {
+        productService.decreaseProduct(CartDTOList);
+    }
+
+
 
 }

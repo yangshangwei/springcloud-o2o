@@ -1,6 +1,7 @@
 package com.artisan.product.repository;
 
 import com.artisan.product.domain.Product;
+import com.artisan.product.dto.CartDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,4 +13,10 @@ public interface ProductRepository  extends JpaRepository<Product, String> {
 
     // 根据产品状态查询产品
     List<Product>  findByProductStatus(Integer productStatus);
+
+
+    // 根据productId 查询 产品列表
+    List<Product> findByProductIdIn(List<String> productIdList);
+
+
 }
