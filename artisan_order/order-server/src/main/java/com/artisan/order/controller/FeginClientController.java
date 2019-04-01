@@ -1,8 +1,10 @@
 package com.artisan.order.controller;
 
-import com.artisan.order.client.ProductClient;
 import com.artisan.order.domain.Product;
 import com.artisan.order.dto.CartDTO;
+import com.artisan.product.client.ProductClient;
+import com.artisan.product.common.DecreaseStockInput;
+import com.artisan.product.common.ProductOutput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,19 +22,19 @@ public class FeginClientController {
     @Autowired
     private ProductClient productClient;
 
-    @GetMapping("/getServerInfoByFeign")
-    public String requestServer() {
-
-        String msg = productClient.getServerInfo();
-
-        log.info("msg from server : {}", msg);
-        return msg;
-    }
+//    @GetMapping("/getServerInfoByFeign")
+//    public String requestServer() {
+//
+//        String msg = productClient.getServerInfo();
+//
+//        log.info("msg from server : {}", msg);
+//        return msg;
+//    }
 
     @GetMapping("/getProductList")
     public String getProductList() {
 
-        List<Product> productList = productClient.getProductForOrder
+        List<ProductOutput> productList = productClient.getProductForOrder
                 (Arrays.asList("1", "2"));
 
         log.info("productList : {}", productList);
@@ -44,11 +46,11 @@ public class FeginClientController {
     @GetMapping("/decreseProduct")
     public String decreseProduct() {
 
-        CartDTO cartDTO = new CartDTO();
-        cartDTO.setProductId("3");
-        cartDTO.setProductQuantity(2);
+        DecreaseStockInput decreaseStockInput = new DecreaseStockInput();
+        decreaseStockInput.setProductId("3");
+        decreaseStockInput.setProductQuantity(2);
 
-        productClient.decreseProduct(Arrays.asList(cartDTO));
+        productClient.decreseProduct(Arrays.asList(decreaseStockInput));
 
         return "扣减成功，查询日志和库表数据";
     }

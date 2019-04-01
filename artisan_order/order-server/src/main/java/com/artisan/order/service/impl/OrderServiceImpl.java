@@ -1,6 +1,5 @@
 package com.artisan.order.service.impl;
 
-import com.artisan.order.client.ProductClient;
 import com.artisan.order.domain.Order;
 import com.artisan.order.domain.OrderDetail;
 import com.artisan.order.domain.Product;
@@ -12,6 +11,9 @@ import com.artisan.order.repository.OrderDetailRepository;
 import com.artisan.order.repository.OrderRepository;
 import com.artisan.order.service.OrderService;
 import com.artisan.order.utils.KeyUtil;
+import com.artisan.product.client.ProductClient;
+import com.artisan.product.common.DecreaseStockInput;
+import com.artisan.product.common.ProductOutput;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,14 +45,14 @@ public class OrderServiceImpl implements OrderService {
         List<String> productIdList = orderDTO.getOrderDetailList().stream()
                 .map(OrderDetail::getProductId)
                 .collect(Collectors.toList());
-        List<Product> productList = productClient.getProductForOrder(productIdList);
+        List<ProductOutput> productList = productClient.getProductForOrder(productIdList);
 
 
         //   计算订单总价
 
         BigDecimal orderAmout = new BigDecimal(BigInteger.ZERO);
         for (OrderDetail orderDetail: orderDTO.getOrderDetailList()) {
-            for (Product product: productList) {
+            for (ProductOutput product: productList) {
                 if (product.getProductId().equals(orderDetail.getProductId())) {
                     //单价*数量
                     orderAmout = product.getProductPrice()
@@ -67,9 +69,11 @@ public class OrderServiceImpl implements OrderService {
 
         // 扣减库存（调用商品微服务）
 
-        List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
-                .map(e -> new CartDTO(e.getProductId(), e.getProductQuantity()))
+        List<DecreaseStockInput> cartDTOList = orderDTO.getOrderDetailList().stream()
+                .map(e -> new DecreaseStockInput(e.getProductId(), e.getProductQuantity()))
                 .collect(Collectors.toList());
+
+
         productClient.decreseProduct(cartDTOList);
 
         //订单入库

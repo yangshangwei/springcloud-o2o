@@ -7,7 +7,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableFeignClients
+// 增加商品模块 对应的路径，否则不会扫描，无法调用
+@EnableFeignClients(basePackages="com.artisan.product.client")
 public class ArtisanOrderApplication {
 
     public static void main(String[] args) {
