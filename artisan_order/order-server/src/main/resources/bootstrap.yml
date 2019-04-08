@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: artisan-order
+  cloud:
+    config:
+      profile: dev
+      # 可配置多个,不推荐使用,因为需要设置具体的ip.服务端修改或者新增IP后,要同步修改
+      # uri: http://localhost:9898/,http://localhost:9999/
+      discovery:
+        # 指定Config Server在服务发现中的service Id ,默认为configserver
+        service-id: ARTISAN-CONFIG
+        # 表示使用服务发现组件中的Config Server,而不自己指定Config Server的uri,默认为false
+        enabled: true
+#Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8762/eureka/
