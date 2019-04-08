@@ -5,7 +5,7 @@ spring:
 
 # 启动端口
 server:
-  port: 8761
+  port: 8762
 
 # 单节点的eureka (后续会改成集群模式)
 eureka:
@@ -18,4 +18,4 @@ eureka:
     # 置与Eureka Server交互的地址，查询服务和注册服务都依赖这个地址。
     # 默认为 http://localhost:8761/eureka ，多个地址可使用 , 分隔
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://localhost:8762/eureka
