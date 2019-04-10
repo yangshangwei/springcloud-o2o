@@ -2,8 +2,6 @@ package com.artisan.order.service.impl;
 
 import com.artisan.order.domain.Order;
 import com.artisan.order.domain.OrderDetail;
-import com.artisan.order.domain.Product;
-import com.artisan.order.dto.CartDTO;
 import com.artisan.order.dto.OrderDTO;
 import com.artisan.order.enums.OrderStatusEnum;
 import com.artisan.order.enums.PayStatusEnum;

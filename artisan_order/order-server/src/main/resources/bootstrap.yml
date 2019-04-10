@@ -11,6 +11,10 @@ spring:
         service-id: ARTISAN-CONFIG
         # 表示使用服务发现组件中的Config Server,而不自己指定Config Server的uri,默认为false
         enabled: true
+    # 修复github webhook 只能刷新config server 无法刷新config client的问题
+    bus:
+      #Workaround for defect in https://github.com/spring-cloud/spring-cloud-bus/issues/124
+      id: ${vcap.application.name:${spring.application.name:application}}:${vcap.application.instance_index:${spring.cloud.config.profile:${local.server.port:${server.port:0}}}}:${vcap.application.instance_id:${random.value}}
 #Eureka
 eureka:
   client:
