@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        # MyMsgInput 自定义   order消费组
+        MyMsgInput:
+          # 消息组的名称
+          group: order
+          #输入通道的主题名
+          destination: MyMsgInput
+          #存在消息队列中的消息，如果是复杂对象，则以JSON的形式展示
+          content-type: application/json
